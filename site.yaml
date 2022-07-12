@@ -1,0 +1,41 @@
+# - name: "Playing with Ansible and Git"
+#   hosts: localhost
+#   connection: local 
+#   tasks:
+
+#   - name: "just execute a ls -lrt command"
+#     shell: "ls -lrt"
+#     register: "output"
+
+#   - debug: var=output.stdout_lines
+
+- name: Install apt packages
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+  - name: apt update
+    ansible.builtin.apt:
+      update_cache: yes
+  - name: Install gnome-keyring for vscode settings sync
+    ansible.builtin.apt:
+      name: gnome-keyring
+      state: present
+  - name: Install guake-prefs deps
+    ansible.builtin.apt:
+      pkg:
+      - dconf-cli
+      - dconf-editor
+  - name: personal-use software
+    ansible.builtin.apt:
+      pkg:
+      - vim
+      - fcitx-mozc
+      - dnsmasq
+      - nodejs
+      - npm
+      - jq
+  - name: imagr software
+    ansible.builtin.apt:
+      pkg:
+      - wireguard
