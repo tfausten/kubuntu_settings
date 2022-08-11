@@ -29,13 +29,24 @@
   - name: personal-use software
     ansible.builtin.apt:
       pkg:
+      - curl
       - vim
-      - fcitx-mozc
       - dnsmasq
       - nodejs
       - npm
       - jq
+      - tmux
+      - guake
   - name: imagr software
     ansible.builtin.apt:
       pkg:
       - wireguard
+  - name: xkeysnail
+    ansible.builtin.apt:
+      pkg:
+      - python3-pip
+      # sudo -H pip3 install xkeysnail
+  - name: Japanese keyboard
+    ansible.builtin.apt:
+      pkg:
+      - fcitx-mozc
