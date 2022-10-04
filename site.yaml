@@ -15,6 +15,7 @@
   - guake
   - xkeysnail
   - dotfiles
+  - chrome
   tasks:
   - name: apt update
     become: true
