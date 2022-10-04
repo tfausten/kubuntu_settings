@@ -1,0 +1,37 @@
+- name: Xkeysnail
+  become: true
+  tags:
+    - keyboard
+    - xkeysnail
+  block: 
+  - name: Install xkeysnail
+    ansible.builtin.pip:
+      executable: pip3
+      name: xkeysnail
+      state: present
+
+  - name: Creating a file with content
+    copy:
+      dest: /etc/systemd/system/xkeysnail.service
+      content: |
+        [Unit]
+        Description=xkeysnail
+
+        [Service]
+        Environment="DISPLAY=:0"
+        ExecStartPre=/usr/bin/sudo -u {{ ansible_user_id }} /usr/bin/xhost +SI:localuser:root
+        Type=simple
+        ExecStart=xkeysnail --watch {{ role_path }}/files/config.py
+        ExecStop=/bin/kill -TERM $MAINPID
+        Restart=always
+        RestartSec=5
+
+        [Install]
+        WantedBy=graphical.target
+  
+  - name: Enable service
+    ansible.builtin.systemd:
+      daemon_reload: yes
+      name: xkeysnail
+      enabled: yes
+      state: started

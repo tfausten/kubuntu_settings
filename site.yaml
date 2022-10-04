@@ -13,12 +13,14 @@
   connection: local
   roles:
   - guake
-  become: true
+  - xkeysnail
   tasks:
   - name: apt update
+    become: true
     ansible.builtin.apt:
       update_cache: yes
   - name: personal-use software
+    become: true
     ansible.builtin.apt:
       update_cache: yes
       pkg:
@@ -30,18 +32,16 @@
       - jq
       - tmux
       - gnome-keyring
+      - git
+      - python3-pip
       state: present
     tags:
     - software
   - name: imagr software
+    become: true
     ansible.builtin.apt:
       pkg:
       - wireguard
-  - name: xkeysnail
-    ansible.builtin.apt:
-      pkg:
-      - python3-pip
-      # sudo -H pip3 install xkeysnail
   - name: Japanese keyboard
     ansible.builtin.apt:
       pkg:
