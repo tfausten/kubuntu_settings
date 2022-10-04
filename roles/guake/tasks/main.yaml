@@ -10,11 +10,13 @@
   tags:
     - software
     - guake
+
 - name: Save guake preferences
   become: false
   shell: guake --save-preferences {{role_path}}/files/guake-prefs
   tags:
   - save-guake-prefs
+
 - name: Restore guake preferences
   become: false
   shell: guake --restore-preferences {{role_path}}/files/guake-prefs

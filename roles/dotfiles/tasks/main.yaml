@@ -1,0 +1,32 @@
+- name: Create dotfile symlinks
+  become: false
+  tags: dotfiles
+  block:
+  - ansible.builtin.file:
+      src: "{{ role_path }}/files/.bash_aliases"
+      dest: ~/.bash_aliases
+      state: link
+  - ansible.builtin.file:
+      src: "{{ role_path }}/files/.bashrc_shared"
+      dest: ~/.bashrc_shared
+      state: link
+  - ansible.builtin.lineinfile:
+      path: ~/.bashrc
+      line: source ~/.bashrc_shared
+      state: present
+  - ansible.builtin.file:
+      src: "{{ role_path }}/files/.inputrc"
+      dest: ~/.inputrc
+      state: link
+  - ansible.builtin.file:
+      src: "{{ role_path }}/files/.tmux.conf"
+      dest: ~/.tmux.conf
+      state: link
+  - ansible.builtin.file:
+      src: "{{ role_path }}/files/.vimrc"
+      dest: ~/.vimrc
+      state: link
+  - ansible.builtin.file:
+      src: "{{ role_path }}/files/plasma-localerc"
+      dest: ~/.config/plasma-localerc
+      state: link

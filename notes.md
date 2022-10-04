@@ -28,14 +28,6 @@ wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
 sudo dpkg -i dbeaver-ce_latest_amd64.deb
 ```
 
-# xkeysnail
-
-```
-sudo -H pip3 install xkeysnail
-```
-
-add startup script to autostart
-
 # dotfiles
 
 - run symlink script in config repo
