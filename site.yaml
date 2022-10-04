@@ -48,3 +48,14 @@
     ansible.builtin.apt:
       pkg:
       - fcitx5-mozc
+  - name: vim as default editor
+    tags:
+    - vim
+    - software
+    block:
+    - ansible.builtin.shell: realpath $(which vim)
+      register: vim_path
+    - community.general.alternatives:
+        name: editor
+        path: "{{ vim_path.stdout }}"
+      become: true

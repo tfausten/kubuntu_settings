@@ -28,18 +28,6 @@ wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
 sudo dpkg -i dbeaver-ce_latest_amd64.deb
 ```
 
-# dotfiles
-
-- run symlink script in config repo
-
-add `source ~/.bashrc_shared` to .bashrc
-
-# vim as default editor
-
-```
-sudo update-alternatives --config editor
-```
-
 # sudo no password
 
 ```
