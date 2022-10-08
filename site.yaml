@@ -1,13 +1,3 @@
-# - name: "Playing with Ansible and Git"
-#   hosts: localhost
-#   connection: local 
-#   tasks:
-
-#   - name: "just execute a ls -lrt command"
-#     shell: "ls -lrt"
-#     register: "output"
-
-#   - debug: var=output.stdout_lines
 - name: Install apt packages
   hosts: localhost
   connection: local
@@ -40,6 +30,15 @@
       state: present
     tags:
     - software
+
+  - name: Turn off KDE discover notifier
+    become: true
+    ansible.builtin.file:
+      path: /etc/xdg/autostart/org.kde.discover.notifier.desktop
+      state: absent
+    tags:
+    - kde
+
   - name: imagr software
     become: true
     ansible.builtin.apt:
