@@ -1,0 +1,15 @@
+- name: Use apt mirror protocol
+  tags:
+  - apt_mirrors
+  become: true
+  block:
+  - replace:
+      path: /etc/apt/sources.list
+      regexp: 'http://jp.archive'
+      replace: 'mirror://mirrors'
+      backup: yes
+  - replace:
+      path: /etc/apt/sources.list
+      regexp: '/ubuntu/'
+      replace: '/mirrors.txt'
+      backup: no
