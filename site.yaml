@@ -8,6 +8,7 @@
   - chrome
   - sudoers
   - apt_mirrors
+  - wifi_power_mgmt
   tasks:
   - name: apt update
     become: true

@@ -1,0 +1,17 @@
+# https://unix.stackexchange.com/a/315400
+- name: Turn off wifi power management
+  tags:
+  - wifi_power_mgmt
+  become: true
+  block:
+  - community.general.ini_file:
+      path: /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+      section: connection
+      option: wifi.powersave
+      value: 2
+      backup: no
+      create: yes
+  - ansible.builtin.systemd:
+      daemon_reload: yes
+      name: NetworkManager
+      state: restarted
