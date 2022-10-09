@@ -9,6 +9,7 @@
   - sudoers
   - apt_mirrors
   - wifi_power_mgmt
+  - undervolt
   tasks:
   - name: apt update
     become: true

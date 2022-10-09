@@ -1,0 +1,21 @@
+- name: Create undervolt service and timer
+  tags:
+  - undervolt
+  become: true
+  block:
+  - ansible.builtin.pip:
+      executable: pip3
+      name: undervolt
+      state: present
+  - copy:
+      dest: /etc/systemd/system/
+      src: "{{ item }}"
+    with_fileglob: "{{ role_path }}/files/undervolt.*"
+  - ansible.builtin.systemd:
+      daemon_reload: yes
+      name: "{{ item }}"
+      enabled: yes
+      state: started
+    with_items:
+    - undervolt
+    - undervolt.timer

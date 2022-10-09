@@ -10,7 +10,7 @@
       name: xkeysnail
       state: present
 
-  - name: Creating a file with content
+  - name: Creating xkeysnail systemd service definition
     copy:
       dest: /etc/systemd/system/xkeysnail.service
       content: |
