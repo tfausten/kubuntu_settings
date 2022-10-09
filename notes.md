@@ -1,19 +1,6 @@
-## Install chrome
-
-```sh
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb
-```
-
 ## Japanese Input Method
 
 https://gihyo.jp/admin/serial/01/ubuntu-recipe/0689
-
-# Remove discover update notifications?
-
-```
-sudo rm /etc/xdg/autostart/org.kde.discover.notifier.desktop
-```
 
 # Numpy for gcloud
 

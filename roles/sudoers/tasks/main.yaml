@@ -1,0 +1,10 @@
+- name: Allow the ansible user to run sudo without password
+  tags:
+  - sudoers
+  become: true
+  community.general.sudoers:
+    name: "{{ ansible_user_id }}_nopassword_sudo"
+    state: present
+    user: "{{ ansible_user_id }}"
+    commands: ALL
+    nopassword: yes
