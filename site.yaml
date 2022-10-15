@@ -10,6 +10,7 @@
   - apt_mirrors
   - wifi_power_mgmt
   - undervolt
+  - grub
   tasks:
   - name: apt update
     become: true

@@ -1,0 +1,23 @@
+- name: Grub settings
+  tags:
+  - grub
+  become: true
+  block:
+  - name: check if splash is configured in the boot command
+    lineinfile:
+      backup: true
+      path: /etc/default/grub
+      regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=".*splash'
+      state: absent
+    check_mode: true
+    register: grub_cmdline_check
+    changed_when: false
+
+  - name: insert splash if missing
+    lineinfile:
+      backrefs: true
+      path: /etc/default/grub
+      regexp: "^(GRUB_CMDLINE_LINUX_DEFAULT=\".*)\"$"
+      line: '\1 splash"'
+    when: grub_cmdline_check.found == 0
+    notify: update grub
