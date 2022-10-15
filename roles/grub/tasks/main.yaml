@@ -3,21 +3,38 @@
   - grub
   become: true
   block:
-  - name: check if splash is configured in the boot command
+  - name: check if quiet is configured in the boot command
     lineinfile:
-      backup: true
       path: /etc/default/grub
-      regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=".*splash'
+      regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=".*quiet'
       state: absent
     check_mode: true
-    register: grub_cmdline_check
+    register: grub_quiet_check
     changed_when: false
 
-  - name: insert splash if missing
+  - name: insert quiet if missing
     lineinfile:
       backrefs: true
       path: /etc/default/grub
       regexp: "^(GRUB_CMDLINE_LINUX_DEFAULT=\".*)\"$"
-      line: '\1 splash"'
-    when: grub_cmdline_check.found == 0
+      line: '\1 quiet"'
+    when: grub_quiet_check.found == 0
+    notify: update grub
+
+  - name: check if console is configured in the boot command
+    lineinfile:
+      path: /etc/default/grub
+      regexp: '^GRUB_CMDLINE_LINUX=".*console'
+      state: absent
+    check_mode: true
+    register: grub_console_check
+    changed_when: false
+
+  - name: insert console setting if missing
+    lineinfile:
+      backrefs: true
+      path: /etc/default/grub
+      regexp: "^(GRUB_CMDLINE_LINUX=\".*)\"$"
+      line: '\1 console=ttyS0"'
+    when: grub_console_check.found == 0
     notify: update grub
