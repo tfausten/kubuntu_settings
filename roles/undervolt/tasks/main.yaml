@@ -3,14 +3,17 @@
   - undervolt
   become: true
   block:
+
   - ansible.builtin.pip:
       executable: pip3
       name: undervolt
       state: present
+
   - copy:
       dest: /etc/systemd/system/
       src: "{{ item }}"
     with_fileglob: "{{ role_path }}/files/undervolt.*"
+
   - ansible.builtin.systemd:
       daemon_reload: yes
       name: "{{ item }}"
