@@ -1,5 +1,5 @@
 ansible:
-	python3 -m pip install --user ansible
+	python3 -m pip install --user ansible ansible-lint
 
-collections:
+requirements:
 	ansible-galaxy install -r requirements.yaml

@@ -1,2 +1,5 @@
 collections:
 - community.general
+
+roles:
+- geerlingguy.docker

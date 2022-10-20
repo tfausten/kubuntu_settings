@@ -1,67 +1,63 @@
-- name: Install apt packages
-  hosts: localhost
+- hosts: localhost
   connection: local
   roles:
-  - guake
-  - xkeysnail
-  - dotfiles
-  - chrome
-  - sudoers
-  - apt_mirrors
-  - wifi_power_mgmt
-  - undervolt
-  - grub
-  - dnsmasq
-  tasks:
-  - name: apt update
-    become: true
-    ansible.builtin.apt:
-      update_cache: yes
-  - name: personal-use software
-    become: true
-    ansible.builtin.apt:
-      update_cache: yes
-      pkg:
-      - curl
-      - vim
-      - nodejs
-      - npm
-      - jq
-      - tmux
-      - gnome-keyring
-      - git
-      - python3-pip
-      - xclip
-      - blueman
-      state: present
-    tags:
-    - software
-
-  - name: Turn off KDE discover notifier
-    become: true
-    ansible.builtin.file:
-      path: /etc/xdg/autostart/org.kde.discover.notifier.desktop
-      state: absent
-    tags:
-    - kde
-
-  - name: imagr software
-    become: true
-    ansible.builtin.apt:
-      pkg:
-      - wireguard
-  - name: Japanese keyboard
-    ansible.builtin.apt:
-      pkg:
-      - fcitx5-mozc
-  - name: vim as default editor
-    tags:
-    - vim
-    - software
-    block:
-    - ansible.builtin.shell: realpath $(which vim)
-      register: vim_path
-    - community.general.alternatives:
-        name: editor
-        path: "{{ vim_path.stdout }}"
+    - guake
+    - xkeysnail
+    - dotfiles
+    - chrome
+    - sudoers
+    - apt_mirrors
+    - wifi_power_mgmt
+    - undervolt
+    - grub
+    - dnsmasq
+    - role: geerlingguy.docker
       become: true
+      docker_users: "{{ ansible_user_id }}"
+      tags: docker
+
+  tasks:
+    - name: Personal-use software
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
+        pkg:
+          - curl
+          - vim
+          - nodejs
+          - npm
+          - jq
+          - tmux
+          - gnome-keyring
+          - git
+          - python3-pip
+          - xclip
+          - blueman
+        state: present
+      tags:
+        - software
+
+    - name: Turn off KDE discover notifier
+      become: true
+      ansible.builtin.file:
+        path: /etc/xdg/autostart/org.kde.discover.notifier.desktop
+        state: absent
+      tags:
+        - kde
+
+    - name: Japanese keyboard
+      ansible.builtin.apt:
+        pkg:
+          - fcitx5-mozc
+
+    - name: Vim as default editor
+      tags:
+        - vim
+        - software
+      block:
+        - ansible.builtin.shell: realpath $(which vim)
+          register: vim_path
+        - community.general.alternatives:
+            name: editor
+            path: "{{ vim_path.stdout }}"
+          become: true
