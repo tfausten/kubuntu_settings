@@ -6,6 +6,7 @@
         name: apt-transport-https
         state: present
         update_cache: true
+        cache_valid_time: "{{ apt_cache_valid_time }}"
     - name: Add Apt signing key
       ansible.builtin.apt_key:
         url: "https://dl.google.com/linux/linux_signing_key.pub"
@@ -20,3 +21,4 @@
         name: "google-chrome-stable"
         state: present
         update_cache: true
+        cache_valid_time: "{{ apt_cache_valid_time }}"

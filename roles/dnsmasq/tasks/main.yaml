@@ -5,6 +5,7 @@
       become: true
       ansible.builtin.apt:
         update_cache: true
+        cache_valid_time: "{{ apt_cache_valid_time }}"
         pkg:
           - dnsmasq
           - dnsutils
