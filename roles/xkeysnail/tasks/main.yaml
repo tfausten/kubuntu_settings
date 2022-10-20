@@ -1,37 +1,35 @@
-- name: Xkeysnail
+- name: Install and configure xkeysnail
   become: true
-  tags:
-    - keyboard
-    - xkeysnail
-  block: 
-  - name: Install xkeysnail
-    ansible.builtin.pip:
-      executable: pip3
-      name: xkeysnail
-      state: present
+  block:
+    - name: Install xkeysnail pip package
+      ansible.builtin.pip:
+        executable: pip3
+        name: xkeysnail
+        state: present
 
-  - name: Creating xkeysnail systemd service definition
-    copy:
-      dest: /etc/systemd/system/xkeysnail.service
-      content: |
-        [Unit]
-        Description=xkeysnail
+    - name: Xkeysnail systemd service definition
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/xkeysnail.service
+        mode: "644"
+        content: |
+          [Unit]
+          Description=xkeysnail
 
-        [Service]
-        Environment="DISPLAY=:0"
-        ExecStartPre=/usr/bin/sudo -u {{ ansible_user_id }} /usr/bin/xhost +SI:localuser:root
-        Type=simple
-        ExecStart=xkeysnail --watch {{ role_path }}/files/config.py
-        ExecStop=/bin/kill -TERM $MAINPID
-        Restart=always
-        RestartSec=5
+          [Service]
+          Environment="DISPLAY=:0"
+          ExecStartPre=/usr/bin/sudo -u {{ ansible_user_id }} /usr/bin/xhost +SI:localuser:root
+          Type=simple
+          ExecStart=xkeysnail --watch --quiet {{ role_path }}/files/config.py
+          ExecStop=/bin/kill -TERM $MAINPID
+          Restart=always
+          RestartSec=5
 
-        [Install]
-        WantedBy=graphical.target
-  
-  - name: Enable service
-    ansible.builtin.systemd:
-      daemon_reload: yes
-      name: xkeysnail
-      enabled: yes
-      state: started
+          [Install]
+          WantedBy=graphical.target
+
+    - name: Enable xkeysnail service
+      ansible.builtin.systemd:
+        daemon_reload: true
+        name: xkeysnail
+        enabled: true
+        state: started

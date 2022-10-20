@@ -2,7 +2,8 @@
   connection: local
   roles:
     - guake
-    - xkeysnail
+    - role: xkeysnail
+      tags: xkeysnail
     - dotfiles
     - chrome
     - sudoers
