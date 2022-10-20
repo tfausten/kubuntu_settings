@@ -1,42 +1,41 @@
 - name: Setup dnsmasq as a local dns-resolver
   become: true
-  tags:
-  - dnsmasq
   block:
+    - name: Install dnsmasq apt package
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
+        pkg:
+          - dnsmasq
+          - dnsutils
+          - ldnsutils
+        state: present
 
-  - name: Install dnsmasq apt package
-    become: true
-    ansible.builtin.apt:
-      update_cache: yes
-      pkg:
-      - dnsmasq
-      - dnsutils
-      - ldnsutils
-      state: present
+    - name: Disable systemd-resolved
+      ansible.builtin.systemd:
+        name: systemd-resolved
+        enabled: false
+        state: stopped
 
-  - name: Disable systemd-resolved
-    ansible.builtin.systemd:
-      name: systemd-resolved
-      enabled: no
-      state: stopped
+    - name: Remove resolv.conf symlink
+      ansible.builtin.file:
+        path: "/etc/resolv.conf"
+        state: absent
 
-  - name: Remove resolv.conf symlink
-    file:
-      path: "/etc/resolv.conf"
-      state: absent
+    - name: Point /etc/resolv.conf to local dnsmasq server
+      ansible.builtin.lineinfile:
+        path: /etc/resolv.conf
+        line: nameserver 127.0.0.1
+        state: present
+        create: true
+        mode: "664"
 
-  - name: Point /etc/resolv.conf to local dnsmasq server
-    ansible.builtin.lineinfile:
-      path: /etc/resolv.conf
-      line: nameserver 127.0.0.1
-      state: present
-      create: yes
-
-  - name: Install dnsmasq config
-    ansible.builtin.lineinfile:
-      path: /etc/dnsmasq.d/my-dnsmasq.conf
-      line: "{{ item }}"
-      state: present
-      create: yes
-    with_lines: cat {{ role_path }}/files/my-dnsmasq.conf
-    notify: restart dnsmasq
+    - name: Install dnsmasq config
+      ansible.builtin.lineinfile:
+        path: /etc/dnsmasq.d/my-dnsmasq.conf
+        line: "{{ item }}"
+        state: present
+        create: true
+        mode: "664"
+      with_lines: cat {{ role_path }}/files/my-dnsmasq.conf
+      notify: Restart dnsmasq

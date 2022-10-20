@@ -25,6 +25,7 @@ scroll-keystroke=true
 start-at-login=true
 startup-script=''
 use-default-font=true
+use-login-shell=false
 use-popup=true
 use-scrollbar=true
 use-trayicon=false

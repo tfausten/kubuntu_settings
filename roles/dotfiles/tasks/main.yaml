@@ -1,32 +1,38 @@
 - name: Create dotfile symlinks
   become: false
-  tags: dotfiles
   block:
-  - ansible.builtin.file:
-      src: "{{ role_path }}/files/.bash_aliases"
-      dest: ~/.bash_aliases
-      state: link
-  - ansible.builtin.file:
-      src: "{{ role_path }}/files/.bashrc_shared"
-      dest: ~/.bashrc_shared
-      state: link
-  - ansible.builtin.lineinfile:
-      path: ~/.bashrc
-      line: source ~/.bashrc_shared
-      state: present
-  - ansible.builtin.file:
-      src: "{{ role_path }}/files/.inputrc"
-      dest: ~/.inputrc
-      state: link
-  - ansible.builtin.file:
-      src: "{{ role_path }}/files/.tmux.conf"
-      dest: ~/.tmux.conf
-      state: link
-  - ansible.builtin.file:
-      src: "{{ role_path }}/files/.vimrc"
-      dest: ~/.vimrc
-      state: link
-  - ansible.builtin.file:
-      src: "{{ role_path }}/files/plasma-localerc"
-      dest: ~/.config/plasma-localerc
-      state: link
+    - name: Link .bash_aliases
+      ansible.builtin.file:
+        src: "{{ role_path }}/files/.bash_aliases"
+        dest: ~/.bash_aliases
+        state: link
+    - name: Link .bashrc_shared
+      ansible.builtin.file:
+        src: "{{ role_path }}/files/.bashrc_shared"
+        dest: ~/.bashrc_shared
+        state: link
+    - name: Source .bashrc_shared in .bashrc
+      ansible.builtin.lineinfile:
+        path: ~/.bashrc
+        line: source ~/.bashrc_shared
+        state: present
+    - name: Link .inputrc
+      ansible.builtin.file:
+        src: "{{ role_path }}/files/.inputrc"
+        dest: ~/.inputrc
+        state: link
+    - name: Link .tmux.conf
+      ansible.builtin.file:
+        src: "{{ role_path }}/files/.tmux.conf"
+        dest: ~/.tmux.conf
+        state: link
+    - name: Link .vimrc
+      ansible.builtin.file:
+        src: "{{ role_path }}/files/.vimrc"
+        dest: ~/.vimrc
+        state: link
+    - name: Link plasma-localerc
+      ansible.builtin.file:
+        src: "{{ role_path }}/files/plasma-localerc"
+        dest: ~/.config/plasma-localerc
+        state: link

@@ -1,17 +1,27 @@
-- hosts: localhost
+- name: Main playbook
+  hosts: localhost
   connection: local
   roles:
-    - guake
+    - role: guake
+      tags: guake
     - role: xkeysnail
       tags: xkeysnail
-    - dotfiles
-    - chrome
-    - sudoers
-    - apt_mirrors
-    - wifi_power_mgmt
-    - undervolt
-    - grub
-    - dnsmasq
+    - role: dotfiles
+      tags: dotfiles
+    - role: chrome
+      tags: chrome
+    - role: sudoers
+      tags: sudoers
+    - role: apt_mirrors
+      tags: apt_mirrors
+    - role: wifi_power_mgmt
+      tags: wifi_power_mgmt
+    - role: undervolt
+      tags: undervolt
+    - role: grub
+      tags: grub
+    - role: dnsmasq
+      tags: dnsmasq
     - role: geerlingguy.docker
       become: true
       docker_users: "{{ ansible_user_id }}"
@@ -56,9 +66,11 @@
         - vim
         - software
       block:
-        - ansible.builtin.shell: realpath $(which vim)
+        - name: Register vim executeable path
+          ansible.builtin.shell: realpath $(which vim)
           register: vim_path
-        - community.general.alternatives:
+        - name: Set vim as default editor
+          community.general.alternatives:
             name: editor
             path: "{{ vim_path.stdout }}"
           become: true

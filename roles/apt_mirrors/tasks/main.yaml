@@ -1,15 +1,15 @@
 - name: Use apt mirror protocol
-  tags:
-  - apt_mirrors
   become: true
   block:
-  - replace:
-      path: /etc/apt/sources.list
-      regexp: 'http://jp.archive'
-      replace: 'mirror://mirrors'
-      backup: yes
-  - replace:
-      path: /etc/apt/sources.list
-      regexp: '/ubuntu/'
-      replace: '/mirrors.txt'
-      backup: no
+    - name: Replace apt ubuntu sources with mirror protocol 1
+      ansible.builtin.replace:
+        path: /etc/apt/sources.list
+        regexp: "http://jp.archive"
+        replace: "mirror://mirrors"
+        backup: true
+    - name: Replace apt ubuntu sources with mirror protocol 2
+      ansible.builtin.replace:
+        path: /etc/apt/sources.list
+        regexp: "/ubuntu/"
+        replace: "/mirrors.txt"
+        backup: false

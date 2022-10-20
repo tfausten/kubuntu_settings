@@ -1,24 +1,19 @@
 - name: Install guake and guake-preferences
   become: true
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     pkg:
-    - dconf-cli
-    - dconf-editor
-    - guake
+      - dconf-cli
+      - dconf-editor
+      - guake
     state: present
-  tags:
-    - software
-    - guake
 
 - name: Save guake preferences
   become: false
-  shell: guake --save-preferences {{role_path}}/files/guake-prefs
-  tags:
-  - save-guake-prefs
+  ansible.builtin.shell: guake --save-preferences {{role_path}}/files/guake-prefs
+  when: save_guake_prefs|default(false)
 
 - name: Restore guake preferences
   become: false
-  shell: guake --restore-preferences {{role_path}}/files/guake-prefs
-  tags:
-  - restore-guake-prefs
+  ansible.builtin.shell: guake --restore-preferences {{role_path}}/files/guake-prefs
+  when: restore_guake_prefs|default(false)

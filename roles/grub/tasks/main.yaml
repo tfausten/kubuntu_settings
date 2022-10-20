@@ -1,40 +1,38 @@
 - name: Grub settings
-  tags:
-  - grub
   become: true
   block:
-  - name: check if quiet is configured in the boot command
-    lineinfile:
-      path: /etc/default/grub
-      regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=".*quiet'
-      state: absent
-    check_mode: true
-    register: grub_quiet_check
-    changed_when: false
+    - name: Check if quiet is configured in the boot command
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=".*quiet'
+        state: absent
+      check_mode: true
+      register: grub_quiet_check
+      changed_when: false
 
-  - name: insert quiet if missing
-    lineinfile:
-      backrefs: true
-      path: /etc/default/grub
-      regexp: "^(GRUB_CMDLINE_LINUX_DEFAULT=\".*)\"$"
-      line: '\1 quiet"'
-    when: grub_quiet_check.found == 0
-    notify: update grub
+    - name: Insert quiet if missing
+      ansible.builtin.lineinfile:
+        backrefs: true
+        path: /etc/default/grub
+        regexp: '^(GRUB_CMDLINE_LINUX_DEFAULT=".*)"$'
+        line: '\1 quiet"'
+      when: grub_quiet_check.found == 0
+      notify: Update grub
 
-  - name: check if console is configured in the boot command
-    lineinfile:
-      path: /etc/default/grub
-      regexp: '^GRUB_CMDLINE_LINUX=".*console'
-      state: absent
-    check_mode: true
-    register: grub_console_check
-    changed_when: false
+    - name: Check if console is configured in the boot command
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX=".*console'
+        state: absent
+      check_mode: true
+      register: grub_console_check
+      changed_when: false
 
-  - name: insert console setting if missing
-    lineinfile:
-      backrefs: true
-      path: /etc/default/grub
-      regexp: "^(GRUB_CMDLINE_LINUX=\".*)\"$"
-      line: '\1 console=ttyS0"'
-    when: grub_console_check.found == 0
-    notify: update grub
+    - name: Insert console setting if missing
+      ansible.builtin.lineinfile:
+        backrefs: true
+        path: /etc/default/grub
+        regexp: '^(GRUB_CMDLINE_LINUX=".*)"$'
+        line: '\1 console=ttyS0"'
+      when: grub_console_check.found == 0
+      notify: Update grub
