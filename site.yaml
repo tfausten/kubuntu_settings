@@ -1,6 +1,7 @@
 - name: Main playbook
   hosts: localhost
   connection: local
+  gather_facts: false
   roles:
     - role: guake
       tags: guake
