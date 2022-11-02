@@ -1,0 +1,11 @@
+- name: Overwrite jp keyboard layout file with customized version
+  become: true
+  ansible.builtin.copy:
+    dest: /usr/share/X11/xkb/symbols/jp
+    src: "{{ role_path }}/files/jp"
+    mode: "644"
+    backup: true
+
+- name: Set kblayout jp
+  become: false
+  ansible.builtin.shell: setxkbmap -layout jp

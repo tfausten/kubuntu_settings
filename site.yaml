@@ -26,6 +26,8 @@
       become: true
       docker_users: "{{ ansible_user_id }}"
       tags: docker
+    - role: kblayout
+      tags: kblayout
 
   vars:
     - apt_cache_valid_time: 3600
