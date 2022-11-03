@@ -24,7 +24,5 @@ make right alt choose third level: https://askubuntu.com/questions/1104092/my-ri
 ## Git config
 
 ```sh
-git config --global user.email tobias.fausten@gmail.com
-git config --global user.name "Tobias Fausten"
 git config --global core.editor vim
 ```
