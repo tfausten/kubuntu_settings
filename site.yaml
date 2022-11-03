@@ -29,6 +29,8 @@
       tags: docker
     - role: kblayout
       tags: kblayout
+    - role: fcitx5
+      tags: fcitx5
 
   vars:
     - apt_cache_valid_time: 3600
@@ -62,11 +64,6 @@
         state: absent
       tags:
         - kde
-
-    - name: Japanese keyboard
-      ansible.builtin.apt:
-        pkg:
-          - fcitx5-mozc
 
     - name: Vim as default editor
       tags:

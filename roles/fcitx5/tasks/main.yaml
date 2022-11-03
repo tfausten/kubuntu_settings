@@ -1,0 +1,48 @@
+- name: Install fcitx5
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+    pkg:
+    - fcitx5-mozc
+  notify: Restart fcitx5
+
+- name: Install fcitx5-material-color
+  ansible.builtin.git:
+    repo: 'https://github.com/hosxy/Fcitx5-Material-Color.git'
+    dest: ~/.local/share/fcitx5/themes/Material-Color
+- name: Set material color theme
+  ansible.builtin.file:
+    src: ~/.local/share/fcitx5/themes/Material-Color/theme-blue.conf
+    dest: ~/.local/share/fcitx5/themes/Material-Color/theme.conf
+    state: link
+  notify: Restart fcitx5
+
+- name: Register user IM
+  become: false
+  ansible.builtin.command: im-config -m | sed -n '2p'
+  register: user_im
+- name: Use fcitx5 as IM
+  become: false
+  ansible.builtin.command: im-config -n fcitx5
+  when: user_im.stdout != 'fcitx5'
+
+- name: Save fcitx5 config
+  become: false
+  ansible.builtin.copy:
+    dest: "{{ role_path }}/files/{{ item }}"
+    src: "~/.config/fcitx5/{{ item }}"
+    mode: "600"
+  with_items: ["config", "profile", "conf/classicui.conf"]
+  when: save_fcitx5_config|default(false)
+
+# usage: ansible-playbook -vv site.yaml -t fcitx5 -e "restore_fcitx5_config=true"
+- name: Restore fcitx5 config
+  become: false
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "~/.config/fcitx5/{{ item }}"
+    mode: "600"
+  with_items: ["config", "profile", "conf/classicui.conf"]
+  when: restore_fcitx5_config|default(false)
+  notify: Restart fcitx5

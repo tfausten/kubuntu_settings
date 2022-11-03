@@ -1,7 +1,3 @@
-## Japanese Input Method
-
-https://gihyo.jp/admin/serial/01/ubuntu-recipe/0689
-
 # Numpy for gcloud
 
 ```
