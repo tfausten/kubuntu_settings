@@ -1,0 +1,27 @@
+- name: Install vim
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+    pkg:
+      - vim
+    state: present
+
+- name: Link .vimrc
+  become: false
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/.vimrc"
+    dest: ~/.vimrc
+    state: link
+
+- name: Vim as default editor
+  become: false
+  block:
+    - name: Register vim executeable path
+      ansible.builtin.shell: "realpath $(which vim)"
+      register: vim_path
+    - name: Set vim as default editor
+      community.general.alternatives:
+        name: editor
+        path: "{{ vim_path.stdout }}"
+      become: true

@@ -31,6 +31,12 @@
       tags: kblayout
     - role: fcitx5
       tags: fcitx5
+    - role: tlp
+      tags: tlp
+    - role: git
+      tags: git
+    - role: vim
+      tags: vim
 
   vars:
     - apt_cache_valid_time: 3600
@@ -43,13 +49,11 @@
         cache_valid_time: "{{ apt_cache_valid_time }}"
         pkg:
           - curl
-          - vim
           - nodejs
           - npm
           - jq
           - tmux
           - gnome-keyring
-          - git
           - python3-pip
           - xclip
           - blueman
@@ -64,17 +68,3 @@
         state: absent
       tags:
         - kde
-
-    - name: Vim as default editor
-      tags:
-        - vim
-        - software
-      block:
-        - name: Register vim executeable path
-          ansible.builtin.shell: realpath $(which vim)
-          register: vim_path
-        - name: Set vim as default editor
-          community.general.alternatives:
-            name: editor
-            path: "{{ vim_path.stdout }}"
-          become: true

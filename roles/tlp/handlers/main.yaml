@@ -1,0 +1,7 @@
+- name: Enable tlp
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: tlp.service
+    enabled: true
+    state: started

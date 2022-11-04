@@ -1,0 +1,15 @@
+- name: Install git
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+    pkg:
+      - git
+      - vim
+    state: present
+
+- name: Set vim as git editor
+  community.general.git_config:
+    name: core.editor
+    scope: global
+    value: vim

@@ -1,0 +1,12 @@
+- name: Install tlp and related packages for power-saving
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+    pkg:
+      - tlp
+      - tlp-rdw
+      - tp-smapi-dkms
+      - acpi-call-dkms
+    state: present
+  notify: Enable tlp

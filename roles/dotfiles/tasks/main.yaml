@@ -26,11 +26,6 @@
         src: "{{ role_path }}/files/.tmux.conf"
         dest: ~/.tmux.conf
         state: link
-    - name: Link .vimrc
-      ansible.builtin.file:
-        src: "{{ role_path }}/files/.vimrc"
-        dest: ~/.vimrc
-        state: link
     - name: Link plasma-localerc
       ansible.builtin.file:
         src: "{{ role_path }}/files/plasma-localerc"
