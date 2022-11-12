@@ -1,0 +1,11 @@
+- name: Remove not needed directories
+  include_tasks: "remove_dir.yaml"
+  loop:
+    - "{{ ansible_env.HOME }}/Music"
+    - "{{ ansible_env.HOME }}/Public"
+    - "{{ ansible_env.HOME }}/Templates"
+    - "{{ ansible_env.HOME }}/Pictures"
+    - "{{ ansible_env.HOME }}/Videos"
+    - "{{ ansible_env.HOME }}/Documents"
+  loop_control:
+    loop_var: target_dir

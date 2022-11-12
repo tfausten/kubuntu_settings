@@ -1,0 +1,15 @@
+- name: Check if dir is empty before deletion
+  ansible.builtin.find:
+    paths: "{{ target_dir }}"
+    file_type: any
+    hidden: true
+  register: filesFound
+- name: Is dir empty?
+  ansible.builtin.debug:
+    msg: "The {{ target_dir }} directory is not empty."
+  when: filesFound.matched > 0
+- name: Delete dir
+  ansible.builtin.file:
+    path: "{{ target_dir }}"
+    state: absent
+  when: filesFound.matched == 0
