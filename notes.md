@@ -20,3 +20,9 @@ sa install gnome-tweaks
 ```
 
 make right alt choose third level: https://askubuntu.com/questions/1104092/my-right-alt-key-is-not-working
+
+# Drivers
+
+```
+sudo ubuntu-drivers autoinstall
+```

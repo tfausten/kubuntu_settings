@@ -8,16 +8,14 @@ from xkeysnail.transform import (
 )
 
 define_keymap(None, {
-    K('Alt-h'): Key.LEFT,
-    K('Alt-j'): Key.DOWN,
-    K('Alt-k'): Key.UP,
-    K('Alt-l'): Key.RIGHT,
-    K('Alt-i'): Key.HOME,
-    K('Alt-o'): Key.END,
+    K('Ctrl-h'): Key.LEFT,
+    K('Ctrl-j'): Key.DOWN,
+    K('Ctrl-k'): Key.UP,
+    K('Ctrl-l'): Key.RIGHT,
+    # K('Ctrl-i'): Key.HOME,
+    # K('Ctrl-o'): Key.END,
 }, 'Vim-like cursor')
 
 define_modmap({
     Key.CAPSLOCK: Key.LEFT_CTRL
 })
-
-
