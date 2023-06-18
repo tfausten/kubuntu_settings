@@ -1,15 +1,29 @@
-- name: Use apt mirror protocol
+- name: Use apt mirror protocol in sources.list
   become: true
+  when: revert is not defined or not revert
   block:
-    - name: Replace apt ubuntu sources with mirror protocol 1
-      ansible.builtin.replace:
+    - ansible.builtin.replace:
         path: /etc/apt/sources.list
         regexp: "http://jp.archive"
         replace: "mirror://mirrors"
         backup: true
-    - name: Replace apt ubuntu sources with mirror protocol 2
-      ansible.builtin.replace:
+    - ansible.builtin.replace:
         path: /etc/apt/sources.list
         regexp: "/ubuntu/"
         replace: "/mirrors.txt"
+        backup: false
+
+- name: Revert to default jp mirrors in sources.list
+  become: true
+  when: revert is defined and revert
+  block:
+    - ansible.builtin.replace:
+        path: /etc/apt/sources.list
+        regexp: "mirror://mirrors"
+        replace: "http://jp.archive"
+        backup: true
+    - ansible.builtin.replace:
+        path: /etc/apt/sources.list
+        regexp: "/mirrors.txt"
+        replace: "/ubuntu/"
         backup: false
