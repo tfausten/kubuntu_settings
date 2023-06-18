@@ -1,11 +1,19 @@
 - name: Install and configure xkeysnail
   become: true
   block:
-    - name: Install xkeysnail pip package
-      ansible.builtin.pip:
-        executable: pip3
-        name: xkeysnail
+    - ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: "{{ apt_cache_valid_time }}"
+        pkg:
+          - pipx
         state: present
+
+    - ansible.builtin.shell: /usr/bin/pipx ensurepath
+
+    - name: Install xkeysnail pip package
+      community.general.pipx:
+        executable: /usr/bin/pipx
+        name: xkeysnail
 
     - name: Xkeysnail systemd service definition
       ansible.builtin.copy:
@@ -19,7 +27,7 @@
           Environment="DISPLAY=:0"
           ExecStartPre=/usr/bin/sudo -u {{ ansible_user_id }} /usr/bin/xhost +SI:localuser:root
           Type=simple
-          ExecStart=xkeysnail --watch --quiet {{ role_path }}/files/config.py
+          ExecStart=/root/.local/bin/xkeysnail --watch --quiet {{ role_path }}/files/config.py
           ExecStop=/bin/kill -TERM $MAINPID
           Restart=always
           RestartSec=5

@@ -1,11 +1,19 @@
 - name: Create undervolt service and timer
   become: true
   block:
-    - name: Install undervolt pip package
-      ansible.builtin.pip:
-        executable: pip3
-        name: undervolt
+    - ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: "{{ apt_cache_valid_time }}"
+        pkg:
+          - pipx
         state: present
+
+    - ansible.builtin.shell: /usr/bin/pipx ensurepath
+
+    - name: Install xkeysnail pip package
+      community.general.pipx:
+        executable: /usr/bin/pipx
+        name: undervolt
 
     - name: Create systemd service definition
       ansible.builtin.copy:

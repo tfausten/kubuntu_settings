@@ -6,7 +6,7 @@ After=hybrid-sleep.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/undervolt -v --core -100 --cache -100 --gpu -60 --temp 95
+ExecStart=/root/.local/bin/undervolt -v --core -100 --cache -100 --gpu -60 --temp 95
 
 [Install]
 WantedBy=multi-user.target
