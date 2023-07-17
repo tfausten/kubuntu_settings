@@ -11,6 +11,7 @@ hide-tabs-if-one-tab=false
 history-size=100000
 infinite-history=true
 lazy-losefocus=false
+load-guake-yml=true
 max-tab-name-length=100
 mouse-display=true
 new-tab-after=false
@@ -43,6 +44,7 @@ show-hide='<Primary>at'
 [keybindings/local]
 decrease-height='<Primary><Shift>Up'
 increase-height='<Primary><Shift>Down'
+zoom-in='<Primary>asciicircum'
 
 [style]
 cursor-shape=0
