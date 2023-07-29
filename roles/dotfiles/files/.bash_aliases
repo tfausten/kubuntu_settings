@@ -3,18 +3,12 @@ alias sa="sudo apt"
 alias rbn="sudo reboot now"
 alias sdn="sudo shutdown now"
 alias mkdir="mkdir -p -v"
-alias gcca="gcloud config configurations activate"
 
 if command -v kubectl &> /dev/null
 then
 	alias k="kubectl"
 	source <(kubectl completion bash)
 	complete -F __start_kubectl k
-fi
-
-if command -v code-insiders &> /dev/null 
-then
-	alias codein="code-insiders"
 fi
 
 # git
@@ -34,3 +28,4 @@ alias l='ls -CF'
 # gcloud
 alias gssh='gcloud compute ssh'
 alias ginst='gcloud compute instances'
+alias gcca="gcloud config configurations activate"

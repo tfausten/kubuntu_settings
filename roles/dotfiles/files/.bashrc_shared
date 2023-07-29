@@ -38,36 +38,11 @@ fi
 [ -s /usr/share/git-core/git-prompt.sh ] && source /usr/share/git-core/git-prompt.sh
 
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\e[0;32m\]\u@\h \[\e[0;36m\]\w\[\e[0;33m\]\[$(__git_ps1)\]\n\[\e[m\] \$ '
+    PS1='\[\e[0;32m\]\u \[\e[0;36m\]\w\[\e[0;33m\]\[$(__git_ps1)\]\n\[\e[m\] \$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u \w \$ '
 fi
 unset color_prompt force_color_prompt
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# WSL related
-if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null ; then
-	# start dbus if not running (for WSL2 display)
-	dbus_status=$(service dbus status)
-	if [[ $dbus_status = *"is not running"* ]]; then
-		  sudo service dbus --full-restart &>/dev/null
-	fi
-	export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
-	export LIBGL_ALWAYS_INDIRECT=1
-fi
-
-# Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '~/google-cloud-sdk/path.bash.inc' ]; then . '~/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-complete -C /usr/bin/terraform terraform
-if [ -f '~/google-cloud-sdk/completion.bash.inc' ]; then . '~/google-cloud-sdk/completion.bash.inc'; fi
 
 if command -v pyenv &> /dev/null
 then
